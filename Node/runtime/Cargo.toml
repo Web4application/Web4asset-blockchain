@@ -1,0 +1,2 @@
+[dependencies.w4t]
+path = "./pallets/w4t"
