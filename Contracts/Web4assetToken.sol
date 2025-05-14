@@ -5,7 +5,7 @@ contract Web4assetToken {
     string public name = "Web4asset Token";
     string public symbol = "W4A";
     uint8 public decimals = 18;
-    uint256 public totalSupply = 10000000000 * (10 ** uint256(decimals));
+    uint256 public totalSupply = 100000000000 * (10 ** uint256(decimals));
 
     mapping(address => uint256) public balanceOf;
     mapping(address => mapping(address => uint256)) public allowance;
