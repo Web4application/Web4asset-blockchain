@@ -13,3 +13,6 @@ cd web4asset-node
 
 # Compile the Node
 cargo build --release
+
+mkdir docs
+cp -r build/* docs/
