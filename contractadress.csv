@@ -1,4 +1,3 @@
-Note: For the actual contract source codes use the api endpoints at https://docs.etherscan.io/api-endpoints/contracts
 "Txhash","ContractAddress","ContractName"
 "0x799444bf845feb460cf12de64a937cd56c47e5b23f35b19c827c682b5c8f5a8e","0xbe75a01dd613a289e9ab872cc45b3b4456a1fea5","BIRDMON"
 "0xeca75a45827b595607bbf4af65bd50bda7cd0f9b0964971112b8ddab02cdd8c8","0x6bff42e501e3a5ab0640c0064f1a0e085ef012c5","OracleProxy"
