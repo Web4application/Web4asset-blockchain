@@ -1,29 +1,23 @@
-import React, { useState } from "react";
-import { getBalance } from "../services/blockchain";
-import { decryptPrivateKey } from "../services/encryption";
+import React, { useState, useEffect } from "react";
+import { getTokenBalance } from "../services/blockchain";
 import config from "../config/config.json";
 
-const WalletCard = ({ wallet, passphrase }) => {
+const WalletCard = ({ wallet }) => {
   const [balance, setBalance] = useState("Loading...");
-  const [privateKey, setPrivateKey] = useState(null);
 
-  const loadBalance = async () => {
-    const walletBalance = await getBalance(wallet.address);
-    setBalance(walletBalance);
-  };
-
-  const handleDecrypt = () => {
-    const decryptedKey = decryptPrivateKey(wallet.encryptedPrivateKey, passphrase);
-    setPrivateKey(decryptedKey);
-  };
+  useEffect(() => {
+    async function fetchBalance() {
+      const contractAddress = config.tokenContract;
+      const walletBalance = await getTokenBalance(wallet.address, contractAddress);
+      setBalance(walletBalance);
+    }
+    fetchBalance();
+  }, [wallet.address]);
 
   return (
     <div className="wallet-card">
       <h3>Address: {wallet.address}</h3>
       <p>Balance: {balance} W4T</p>
-      <button onClick={loadBalance}>Load Balance</button>
-      <button onClick={handleDecrypt}>Decrypt Private Key</button>
-      {privateKey && <p>Private Key: {privateKey}</p>}
     </div>
   );
 };
