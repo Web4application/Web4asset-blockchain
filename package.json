@@ -1,0 +1,5 @@
+"scripts": {
+  "start": "webpack serve --open",
+  "build": "webpack --mode production",
+  "deploy": "npm run build && cp -R ./docs/* ../Web4Asset-Deploy/"
+}
