@@ -1,17 +1,26 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+// contracts/Oracle.sol
+pragma solidity ^0.4.17;
 
-import "@chainlink/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol";
+contract Oracle {
+    address public oracleAddress;
+    uint public productId;
+    bool public delayPrediction;
 
-contract Web4assetOracle {
-    AggregatorV3Interface internal priceFeed;
-
-    constructor() {
-        priceFeed = AggregatorV3Interface(0x...); // Chainlink price feed address
+    modifier onlyOracle() {
+        require(msg.sender == oracleAddress, "Only the oracle can set the prediction.");
+        _;
     }
 
-    function getLatestPrice() public view returns (int) {
-        (, int price, , , ) = priceFeed.latestRoundData();
-        return price;
+    constructor(address _oracleAddress) public {
+        oracleAddress = _oracleAddress;
+    }
+
+    function setPrediction(uint _productId, bool _delayPrediction) public onlyOracle {
+        productId = _productId;
+        delayPrediction = _delayPrediction;
+    }
+
+    function getPrediction() public view returns (bool) {
+        return delayPrediction;
     }
 }

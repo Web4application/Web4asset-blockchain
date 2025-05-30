@@ -1,0 +1,46 @@
+
+  "network": {
+    "name": "Web4Asset Mainnet",
+    "chainId": 1337,
+    "rpcUrl": "https://web4asset.io/rpc",
+    "explorerUrl": "https://web4asset.io/explorer"
+  },
+  "wallets": [
+    {
+      "address": "0x1234567890abcdef1234567890abcdef12345678",
+      "publicKey": "04c3e4b65de59a6fbe19a7f3d7b8ae9d3c9b5d6a17e2a2a9dbf45a1ebecf0d4ed0b7d24e6e36e37f6e5b6a4a27c1a7bc7b6a5a2a27b6a2a3b6a5b4a2a4b5b6b7",
+      "encryptedPrivateKey": "U2FsdGVkX19BfG6vYrZX2c8Dwvx8BqHtNTbKDE2Cylw=",
+      "balance": "1000 W4T",
+      "tokens": [
+        {
+          "symbol": "W4T",
+          "contractAddress": "0xabcdefabcdefabcdefabcdefabcdefabcdef",
+          "balance": "1000"
+        },
+        {
+          "symbol": "W4NFT",
+          "contractAddress": "0x123456789abcdef123456789abcdef1234567890",
+          "balance": "5"
+        }
+      ]
+    },
+    {
+      "address": "0xabcdefabcdefabcdefabcdefabcdefabcdef",
+      "publicKey": "04a3b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4",
+      "encryptedPrivateKey": "U2FsdGVkX1+3HDJKFO13DvgEdXvc1RxoePA0HYzKDgI=",
+      "balance": "250 W4T",
+      "tokens": [
+        {
+          "symbol": "W4T",
+          "contractAddress": "0xabcdefabcdefabcdefabcdefabcdefabcdef",
+          "balance": "250"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "gasLimit": 21000,
+    "gasPrice": "10 GWEI",
+    "defaultNetwork": "Web4Asset Mainnet"
+  }
+}
