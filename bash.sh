@@ -16,3 +16,6 @@ cargo build --release
 
 mkdir docs
 cp -r build/* docs/
+
+truffle compile
+truffle migrate --network development
