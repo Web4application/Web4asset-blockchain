@@ -1,38 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import { useState } from "react";
-import { ethers } from "ethers";
 
-function App() {
-    const [balance, setBalance] = useState(0);
-
-    async function connectWallet() {
-        if (window.ethereum) {
-            // Initialize the provider
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            await provider.send("eth_requestAccounts", []); // Request account access
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            const balance = await provider.getBalance(address);
-            setBalance(ethers.formatEther(balance)); // Format the balance to Ether (or W4T)
-        } else {
-            alert("Please install MetaMask");
-        }
-    }
-
-    return (
-        <div>
-            <h1>Web4Asset Dashboard</h1>
-            <button onClick={connectWallet}>Connect Wallet</button>
-            <p>Balance: {balance} W4T</p>
-        </div>
-    );
-}
-
+// RPC URL and wallet address configuration
 const RPC_URL = "https://web4asset.io/rpc";
 const walletAddress = "0x1234567890abcdef1234567890abcdef12345678";
 
-// Sample token config
+// Sample token configuration
 const TOKEN_CONTRACTS = [
   {
     symbol: "W4T",
@@ -47,6 +20,7 @@ const TOKEN_CONTRACTS = [
   }
 ];
 
+// ABI definitions for ERC20 and ERC721 tokens
 const ERC20_ABI = [
   "function balanceOf(address owner) view returns (uint256)",
   "function decimals() view returns (uint8)"
@@ -56,11 +30,27 @@ const ERC721_ABI = [
   "function tokenURI(uint256 tokenId) view returns (string)"
 ];
 
-export default function App() {
+function App() {
   const [nativeBalance, setNativeBalance] = useState("Loading...");
   const [tokenBalances, setTokenBalances] = useState({});
   const [nfts, setNFTs] = useState([]);
+  const [balance, setBalance] = useState(0);
 
+  // Function to connect the wallet via MetaMask
+  async function connectWallet() {
+    if (window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []); // Request account access
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      const balance = await provider.getBalance(address);
+      setBalance(ethers.formatEther(balance)); // Format the balance to Ether (or W4T)
+    } else {
+      alert("Please install MetaMask");
+    }
+  }
+
+  // Function to load wallet data (native balance, token balances, and NFTs)
   useEffect(() => {
     async function loadWalletData() {
       const provider = new ethers.providers.JsonRpcProvider(RPC_URL);
@@ -72,8 +62,11 @@ export default function App() {
         setNativeBalance(ethers.utils.formatEther(native) + " W4T");
 
         for (const token of TOKEN_CONTRACTS) {
-          const contract = new ethers.Contract(token.address,
-            token.type === "ERC20" ? ERC20_ABI : ERC721_ABI, provider);
+          const contract = new ethers.Contract(
+            token.address,
+            token.type === "ERC20" ? ERC20_ABI : ERC721_ABI,
+            provider
+          );
 
           if (token.type === "ERC20") {
             const balance = await contract.balanceOf(walletAddress);
@@ -117,9 +110,18 @@ export default function App() {
   return (
     <div style={{ padding: 20, fontFamily: "Arial" }}>
       <h1>Web4Asset Wallet</h1>
+
+      {/* MetaMask Wallet Connection */}
+      <div>
+        <button onClick={connectWallet}>Connect Wallet</button>
+        <p>Balance: {balance} W4T</p>
+      </div>
+
+      {/* Native Balance */}
       <p><strong>Address:</strong> {walletAddress}</p>
       <p><strong>Native Balance:</strong> {nativeBalance}</p>
 
+      {/* Token Balances */}
       <h2>Token Balances</h2>
       <ul>
         {Object.entries(tokenBalances).map(([symbol, bal]) => (
@@ -127,6 +129,7 @@ export default function App() {
         ))}
       </ul>
 
+      {/* NFT Gallery */}
       {nfts.length > 0 && (
         <>
           <h2>NFT Gallery</h2>
@@ -150,3 +153,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;
