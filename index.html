@@ -1,245 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Web4Asset - Blockchain</title>
-    <style>
-      /* Reset some default styles */
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Web4Asset - Blockchain Digital Asset Management</title>
+  <style>
+    /* Basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f8ff;
+      color: #222;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #1554f6;
+      padding: 1rem 2rem;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: 2px;
+      user-select: none;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #ff7f50;
+    }
+    main {
+      flex-grow: 1;
+      padding: 3rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .hero {
+      text-align: center;
+      padding-bottom: 3rem;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      color: #1554f6;
+      margin-bottom: 0.5rem;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: #444;
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero a.cta-button {
+      background-color: #ff7f50;
+      color: white;
+      padding: 1rem 2.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+    .hero a.cta-button:hover {
+      background-color: #ff5722;
+    }
+    section.features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    .feature-card {
+      background: white;
+      padding: 2rem 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(21, 84, 246, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    .feature-card img {
+      width: 70px;
+      margin-bottom: 1.25rem;
+    }
+    .feature-card h3 {
+      color: #1554f6;
+      margin-bottom: 0.75rem;
+      font-size: 1.3rem;
+    }
+    .feature-card p {
+      color: #555;
+      font-size: 1rem;
+    }
+    section.how-it-works {
+      background: #e9f0ff;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      text-align: center;
+    }
+    section.how-it-works h2 {
+      color: #1554f6;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+    section.how-it-works p {
+      font-size: 1.1rem;
+      color: #333;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    footer {
+      background: #1554f6;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 2rem;
+      font-size: 0.9rem;
+    }
 
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        background-color: #f9f9f9;
-        color: #333;
-      }
+    /* Wallet section */
+    #wallet button, #wallet #signMessageBtn {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      background: #1554f6;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 0.5rem;
+    }
+    #wallet button:hover, #wallet #signMessageBtn:hover {
+      background: #0d3bb5;
+    }
+    #wallet p {
+      margin-top: 1rem;
+      font-weight: 600;
+      color: #1554f6;
+      word-break: break-word;
+    }
 
-      /* Hero Section */
-      .hero {
-        background: linear-gradient(135deg, #2a8bf2, #1554f6);
-        color: white;
-        text-align: center;
-        padding: 100px 20px 80px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
+    /* API status section */
+    #api-status p {
+      font-weight: 600;
+      color: #333;
+      margin-top: 0.5rem;
+    }
 
-      .hero .logo {
-        width: 120px;
-        margin-bottom: 20px;
-      }
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: none;
+    }
 
+    /* Responsive */
+    @media (max-width: 600px) {
       .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 10px;
-        font-weight: 700;
+        font-size: 2.2rem;
       }
-
       .hero p {
-        font-size: 1.25rem;
-        margin-bottom: 30px;
-        max-width: 600px;
-      }
-
-      .cta-button {
-        display: inline-block;
-        background-color: #ff7f50;
-        color: white;
-        padding: 15px 40px;
-        font-size: 1.1rem;
-        border-radius: 50px;
-        text-decoration: none;
-        font-weight: 600;
-        transition: background-color 0.3s ease;
-      }
-
-      .cta-button:hover {
-        background-color: #ff5722;
-      }
-
-      /* Features Section */
-      .features {
-        background-color: white;
-        padding: 80px 20px;
-        text-align: center;
-      }
-
-      .features h2 {
-        font-size: 2.5rem;
-        margin-bottom: 50px;
-        color: #1554f6;
-        font-weight: 700;
-      }
-
-      .feature-cards {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        flex-wrap: wrap;
-      }
-
-      .card {
-        background: #f0f4ff;
-        padding: 30px 20px;
-        border-radius: 15px;
-        width: 280px;
-        box-shadow: 0 8px 20px rgba(21, 84, 246, 0.1);
-        transition: transform 0.3s ease;
-      }
-
-      .card:hover {
-        transform: translateY(-10px);
-      }
-
-      .card img {
-        width: 60px;
-        margin-bottom: 25px;
-      }
-
-      .card h3 {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-        color: #1554f6;
-      }
-
-      .card p {
         font-size: 1rem;
-        color: #555;
       }
-
-      /* How It Works Section */
-      .how-it-works {
-        background-color: #e9f0ff;
-        padding: 70px 20px;
-        text-align: center;
+      nav {
+        font-size: 0.9rem;
       }
-
-      .how-it-works h2 {
-        font-size: 2.5rem;
-        margin-bottom: 30px;
-        color: #1554f6;
-        font-weight: 700;
-        max-width: 600px;
-        margin-left: auto;
-        margin-right: auto;
+      #wallet button, #wallet #signMessageBtn {
+        width: 100%;
+        margin: 0.5rem 0;
       }
-
-      .how-it-works-content p {
-        font-size: 1.1rem;
-        max-width: 700px;
-        margin: 0 auto;
-        color: #333;
-        line-height: 1.7;
-      }
-
-      /* Call to Action Section */
-      .cta {
-        background: #1554f6;
-        color: white;
-        padding: 60px 20px;
-        text-align: center;
-      }
-
-      .cta h2 {
-        font-size: 2.8rem;
-        margin-bottom: 25px;
-        font-weight: 700;
-      }
-
-      .cta .cta-button {
-        background-color: #ff7f50;
-        padding: 18px 50px;
-        font-size: 1.25rem;
-      }
-
-      .cta .cta-button:hover {
-        background-color: #ff5722;
-      }
-
-      /* Responsive */
-      @media (max-width: 900px) {
-        .feature-cards {
-          flex-direction: column;
-          align-items: center;
-        }
-
-        .card {
-          width: 90%;
-          max-width: 350px;
-        }
-      }
-
-      @media (max-width: 500px) {
-        .hero h1 {
-          font-size: 2.2rem;
-        }
-
-        .hero p {
-          font-size: 1rem;
-        }
-
-        .cta h2 {
-          font-size: 2rem;
-        }
-      }
-    </style>
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="logo">Web4Asset</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#get-started">Get Started</a>
+      <a href="#wallet">Wallet</a>
+      <a href="#api-status">API Status</a>
+    </nav>
+  </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <img src="assets/logo.png" alt="Web4Asset Logo" class="logo" />
-            <h1>Blockchain</h1>
-            <p>Empowering Digital Assets with Decentralization and Security.</p>
-            <a href="#features" class="cta-button">Explore Features</a>
-        </div>
+  <main>
+    <section class="hero fade-in">
+      <h1>Empowering Digital Assets with Blockchain</h1>
+      <p>Secure, decentralized, and transparent digital asset management built on blockchain technology.</p>
+      <a href="#get-started" class="cta-button">Get Started</a>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <h2>Blockchain Capabilities</h2>
-        <div class="feature-cards">
-            <div class="card">
-                <img src="assets/icons/security.png" alt="Security" />
-                <h3>Secure Transactions</h3>
-                <p>Military-grade encryption ensures asset safety.</p>
-            </div>
-            <div class="card">
-                <img src="assets/icons/transparency.png" alt="Transparency" />
-                <h3>Transparency</h3>
-                <p>Immutable ledger for accurate tracking of digital assets.</p>
-            </div>
-            <div class="card">
-                <img src="assets/icons/decentralized.png" alt="Decentralization" />
-                <h3>Decentralized Network</h3>
-                <p>Trustless systems eliminating intermediaries.</p>
-            </div>
-        </div>
+    <section class="features fade-in" id="features">
+      <div class="feature-card">
+        <img src="assets/icons/security.png" alt="Secure Transactions" />
+        <h3>Secure Transactions</h3>
+        <p>Military-grade encryption ensures your assets are safe and tamper-proof.</p>
+      </div>
+      <div class="feature-card">
+        <img src="assets/icons/transparency.png" alt="Transparency" />
+        <h3>Transparency</h3>
+        <p>An immutable ledger that guarantees trust and auditability for all transactions.</p>
+      </div>
+      <div class="feature-card">
+        <img src="assets/icons/decentralized.png" alt="Decentralized Network" />
+        <h3>Decentralized Network</h3>
+        <p>Eliminating intermediaries to provide trustless and efficient asset management.</p>
+      </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works">
-        <h2>How It Works</h2>
-        <div class="how-it-works-content">
-            <p>
-                Web4Asset leverages blockchain technology to create a secure, transparent, and scalable digital asset management platform. 
-                Each transaction is encrypted, verified, and recorded on a decentralized ledger, ensuring data integrity and preventing tampering.
-            </p>
-        </div>
+    <section class="how-it-works fade-in" id="how-it-works">
+      <h2>How It Works</h2>
+      <p>
+        Web4Asset utilizes blockchain to encrypt, verify, and record every transaction on a decentralized ledger.
+        This approach ensures data integrity, transparency, and security without the need for intermediaries.
+      </p>
     </section>
 
-    <!-- Call to Action Section -->
-    <section class="cta">
-        <h2>Join the Web4Asset Network</h2>
-        <a href="#contact" class="cta-button">Get Started</a>
+    <section id="get-started" style="text-align:center; margin-bottom: 4rem;">
+      <a href="#wallet" class="cta-button">Join the Web4Asset Network</a>
     </section>
 
+    <!-- Wallet Integration UI -->
+    <section id="wallet" style="text-align:center; margin-bottom:4rem;" class="fade-in">
+      <h2>Connect Your Wallet</h2>
+      <button id="connectWalletBtn">Connect Wallet</button>
+      <button id="signMessageBtn" style="display:none;">Sign Message</button>
+      <p id="walletAddress"></p>
+      <p id="balance"></p>
+      <p id="signatureResult"></p>
+    </section>
+
+    <!-- Backend API Status -->
+    <section id="api-status" style="text-align:center; margin-bottom: 4rem;" class="fade-in">
+      <h2>API Status</h2>
+      <p id="statusMessage">Checking status...</p>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Web4Asset. All rights reserved.
+  </footer>
+
+  <!-- Ethers.js for wallet connection -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+  <script>
+    const connectWalletBtn = document.getElementById('connectWalletBtn');
+    const signMessageBtn = document.getElementById('signMessageBtn');
+    const walletAddressEl = document.getElementById('walletAddress');
+    const balanceEl = document.getElementById('balance');
+    const signatureResult = document.getElementById('signatureResult');
+
+    async function connectWallet() {
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const account = accounts[0];
+          walletAddressEl.textContent = 'Connected: ' + account;
+          connectWalletBtn.style.display = 'none';
+          signMessageBtn.style.display = 'inline-block';
+
+          // Create provider
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const balance = await provider.getBalance(account);
+          const etherString = ethers.utils.formatEther(balance);
+          balanceEl.textContent = `Balance: ${parseFloat(etherString).toFixed(4)} ETH`;
+        } catch (error) {
+          walletAddressEl.textContent = 'Connection rejected.';
+          balanceEl.textContent = '';
+          signMessageBtn.style.display = 'none';
+        }
+      } else {
+        walletAddressEl.innerHTML = 'MetaMask not detected. Please install it from <a href="https://metamask.io/" target="_blank" rel="noopener noreferrer">here</a>.';
+        balanceEl.textContent = '';
+        signMessageBtn.style.display = 'none';
+      }
+    }
+
+    connectWalletBtn.addEventListener('click', connectWallet);
+
+    signMessageBtn.addEventListener('click', async () => {
+      if (!window.ethereum) {
+        signatureResult.textContent = 'MetaMask not detected.';
+        return;
+      }
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const message = 'Sign this message to confirm your identity on Web4Asset.';
+        const signature = await signer.signMessage(message);
+        signatureResult.textContent = `Signature: ${signature}`;
+      } catch (err) {
+        signatureResult.textContent = 'Signing cancelled or failed.';
+      }
+    });
+
+    // Fetch backend API status
+    async function checkApiStatus() {
+      const statusMessage = document.getElementById('statusMessage');
+      try {
+        const response = await fetch('/api/status');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        if (data.status === 'online') {
+          statusMessage.textContent = 'API is online and running smoothly.';
+          statusMessage.style.color = 'green';
+        } else {
+          statusMessage.textContent = 'API status unknown.';
+          statusMessage.style.color = 'orange';
+        }
+      } catch (error) {
+        statusMessage.textContent = 'Unable to reach API.';
+        statusMessage.style.color = 'red';
+      }
+    }
+    checkApiStatus();
+
+    // Simple fade-in on scroll
+    function handleFadeIn() {
+      const faders = document.querySelectorAll('.fade-in');
+      const windowBottom = window.innerHeight;
+      faders.forEach(fader => {
+        const elementTop = fader.getBoundingClientRect().top;
+        if (elementTop < windowBottom - 100) {
+          fader.classList.add('visible');
+        }
+      });
+    }
+    window.addEventListener('scroll', handleFadeIn);
+    window.addEventListener('load', handleFadeIn);
+  </script>
 </body>
 </html>
