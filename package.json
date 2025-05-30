@@ -1,6 +1,0 @@
-"scripts": {
-  "build": "webpack --mode",
-  "start": "webpack serve --mode development",
-  "build": "webpack --mode production",
-  "deploy": "npm run build && cp -R ./docs/* ../Web4Asset-Deploy/"
-}
