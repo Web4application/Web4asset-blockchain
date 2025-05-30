@@ -1,0 +1,58 @@
+name: Build and Package oatpp, oatpp-curl and meta
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-packages:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt update && sudo apt install -y cmake build-essential pkg-config libcurl4-openssl-dev rpm
+
+    - name: Build & package oatpp
+      run: |
+        cd oatpp
+        mkdir build && cd build
+        cmake .. -DOATPP_BUILD_TESTS=OFF
+        make -j$(nproc)
+        cpack -G DEB,RPM
+
+    - name: Upload oatpp artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: oatpp-packages
+        path: oatpp/build/*.{deb,rpm}
+
+    - name: Build & package oatpp-curl
+      run: |
+        cd oatpp-curl
+        mkdir build && cd build
+        cmake .. -DOATPP_MODULES_LOCATION=EXTERNAL
+        make -j$(nproc)
+        cpack -G DEB,RPM
+
+    - name: Upload oatpp-curl artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: oatpp-curl-packages
+        path: oatpp-curl/build/*.{deb,rpm}
+
+    - name: Build & package meta package
+      run: |
+        cd oatpp-meta
+        mkdir build && cd build
+        cmake ..
+        cpack -G DEB,RPM
+
+    - name: Upload meta artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: oatpp-meta-packages
+        path: oatpp-meta/build/*.{deb,rpm}
