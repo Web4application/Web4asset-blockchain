@@ -1,18 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>Web4Asset - Blockchain </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Web4Asset - Blockchain</title>
+    <style>
+      /* Reset some default styles */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      /* Hero Section */
+      .hero {
+        background: linear-gradient(135deg, #2a8bf2, #1554f6);
+        color: white;
+        text-align: center;
+        padding: 100px 20px 80px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .hero .logo {
+        width: 120px;
+        margin-bottom: 20px;
+      }
+
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+
+      .hero p {
+        font-size: 1.25rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background-color: #ff7f50;
+        color: white;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+      }
+
+      .cta-button:hover {
+        background-color: #ff5722;
+      }
+
+      /* Features Section */
+      .features {
+        background-color: white;
+        padding: 80px 20px;
+        text-align: center;
+      }
+
+      .features h2 {
+        font-size: 2.5rem;
+        margin-bottom: 50px;
+        color: #1554f6;
+        font-weight: 700;
+      }
+
+      .feature-cards {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+      }
+
+      .card {
+        background: #f0f4ff;
+        padding: 30px 20px;
+        border-radius: 15px;
+        width: 280px;
+        box-shadow: 0 8px 20px rgba(21, 84, 246, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-10px);
+      }
+
+      .card img {
+        width: 60px;
+        margin-bottom: 25px;
+      }
+
+      .card h3 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        color: #1554f6;
+      }
+
+      .card p {
+        font-size: 1rem;
+        color: #555;
+      }
+
+      /* How It Works Section */
+      .how-it-works {
+        background-color: #e9f0ff;
+        padding: 70px 20px;
+        text-align: center;
+      }
+
+      .how-it-works h2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        color: #1554f6;
+        font-weight: 700;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .how-it-works-content p {
+        font-size: 1.1rem;
+        max-width: 700px;
+        margin: 0 auto;
+        color: #333;
+        line-height: 1.7;
+      }
+
+      /* Call to Action Section */
+      .cta {
+        background: #1554f6;
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+      }
+
+      .cta h2 {
+        font-size: 2.8rem;
+        margin-bottom: 25px;
+        font-weight: 700;
+      }
+
+      .cta .cta-button {
+        background-color: #ff7f50;
+        padding: 18px 50px;
+        font-size: 1.25rem;
+      }
+
+      .cta .cta-button:hover {
+        background-color: #ff5722;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .feature-cards {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .card {
+          width: 90%;
+          max-width: 350px;
+        }
+      }
+
+      @media (max-width: 500px) {
+        .hero h1 {
+          font-size: 2.2rem;
+        }
+
+        .hero p {
+          font-size: 1rem;
+        }
+
+        .cta h2 {
+          font-size: 2rem;
+        }
+      }
+    </style>
 </head>
 <body>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <img src="assets/logo.png" alt="Web4Asset Logo" class="logo">
-            <h1>Blockchain </h1>
+            <img src="assets/logo.png" alt="Web4Asset Logo" class="logo" />
+            <h1>Blockchain</h1>
             <p>Empowering Digital Assets with Decentralization and Security.</p>
             <a href="#features" class="cta-button">Explore Features</a>
         </div>
@@ -23,17 +207,17 @@
         <h2>Blockchain Capabilities</h2>
         <div class="feature-cards">
             <div class="card">
-                <img src="assets/icons/security.png" alt="Security">
+                <img src="assets/icons/security.png" alt="Security" />
                 <h3>Secure Transactions</h3>
                 <p>Military-grade encryption ensures asset safety.</p>
             </div>
             <div class="card">
-                <img src="assets/icons/transparency.png" alt="Transparency">
+                <img src="assets/icons/transparency.png" alt="Transparency" />
                 <h3>Transparency</h3>
                 <p>Immutable ledger for accurate tracking of digital assets.</p>
             </div>
             <div class="card">
-                <img src="assets/icons/decentralized.png" alt="Decentralization">
+                <img src="assets/icons/decentralized.png" alt="Decentralization" />
                 <h3>Decentralized Network</h3>
                 <p>Trustless systems eliminating intermediaries.</p>
             </div>
