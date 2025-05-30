@@ -15,6 +15,7 @@ function App() {
   const [metaMaskAddress, setMetaMaskAddress] = useState(null);
   const [metaMaskBalance, setMetaMaskBalance] = useState(null);
 
+  // Clear passphrase on page unload
   useEffect(() => {
     const clearPassphrase = () => {
       setPassphrase("");
@@ -26,13 +27,14 @@ function App() {
     return () => window.removeEventListener("beforeunload", clearPassphrase);
   }, []);
 
+  // Handle passphrase submission and decryption
   async function handlePassphraseSubmit(e) {
     e.preventDefault();
     setDecrypting(true);
     setDecryptError(null);
 
     try {
-      const testWallet = config.wallets[0];
+      const testWallet = config.wallets[0]; // Assume wallets is an array
       const bytes = CryptoJS.AES.decrypt(testWallet.encryptedPrivateKey, inputPassphrase);
       const decrypted = bytes.toString(CryptoJS.enc.Utf8);
 
@@ -48,6 +50,7 @@ function App() {
     }
   }
 
+  // Connect MetaMask
   async function connectMetaMask() {
     if (!window.ethereum) {
       alert("MetaMask not detected. Please install MetaMask.");
@@ -67,6 +70,7 @@ function App() {
     }
   }
 
+  // Handle logout (lock wallet)
   function handleLogout() {
     setPassphrase("");
     setLocked(true);
@@ -74,6 +78,7 @@ function App() {
     setMetaMaskBalance(null);
   }
 
+  // If the wallet is locked and MetaMask is not connected, show the unlock page
   if (locked && !metaMaskAddress) {
     return (
       <div style={{ padding: 20 }}>
@@ -102,6 +107,7 @@ function App() {
     );
   }
 
+  // Main wallet manager page
   return (
     <div className="App" style={{ padding: 20 }}>
       <h1>Web4Asset Wallet Manager</h1>
@@ -121,20 +127,6 @@ function App() {
       <button onClick={handleLogout} style={{ marginTop: 30, padding: "10px 20px" }}>
         Lock Wallets
       </button>
-    </div>
-  );
-}
-
-function App() {
-  // TODO: Replace with a secure passphrase input method
-  const passphrase = "yourpassword";
-
-  return (
-    <div className="App" style={{ padding: 20, fontFamily: "Arial, sans-serif" }}>
-      <h1>Web4Asset Wallet Manager</h1>
-      {config.wallets.map((wallet, idx) => (
-        <WalletCard key={idx} wallet={wallet} passphrase={passphrase} />
-      ))}
     </div>
   );
 }
