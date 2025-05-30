@@ -1,5 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
+import { useState } from "react";
+import { ethers } from "ethers";
+
+function App() {
+    const [balance, setBalance] = useState(0);
+
+    async function connectWallet() {
+        if (window.ethereum) {
+            // Initialize the provider
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []); // Request account access
+            const signer = provider.getSigner();
+            const address = await signer.getAddress();
+            const balance = await provider.getBalance(address);
+            setBalance(ethers.formatEther(balance)); // Format the balance to Ether (or W4T)
+        } else {
+            alert("Please install MetaMask");
+        }
+    }
+
+    return (
+        <div>
+            <h1>Web4Asset Dashboard</h1>
+            <button onClick={connectWallet}>Connect Wallet</button>
+            <p>Balance: {balance} W4T</p>
+        </div>
+    );
+}
 
 const RPC_URL = "https://web4asset.io/rpc";
 const walletAddress = "0x1234567890abcdef1234567890abcdef12345678";
