@@ -22,3 +22,9 @@ module.exports = {
     extensions: [".js", ".jsx"]
   }
 };
+devServer:{
+  static: path.resolve(__dirname, "docs"),
+  port: 3000,
+  hot: true,
+  open: true
+}
