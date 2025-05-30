@@ -19,5 +19,4 @@ cp -r build/* docs/
 
 truffle compile
 truffle migrate --network development
-
 npm install --save-dev webpack-dev-server
