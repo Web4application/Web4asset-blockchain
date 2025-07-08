@@ -1,0 +1,40 @@
+name: Deploy to IPFS
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to IPFS
+        uses: ipfs/ipfs-deploy-action@v1
+        id: deploy
+        with:
+          path-to-deploy: dist # Change this to your build output directory
+          storacha-key: ${{ secrets.STORACHA_KEY }}
+          storacha-proof: ${{ secrets.STORACHA_PROOF }}
+          github-token: ${{ github.token }}
