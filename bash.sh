@@ -11,15 +11,22 @@ Primary key fingerprint: 36C7 1A37 C9D9 88BD E825  08D9 B1A7 0E4F 8DCD 0366
 
 gpg --keyserver hkps://keys.openpgp.org --recv-keys "<09E0 3F87 1092 E40E 106E 902B 33BC 86AB 80FF 5516>"
 
-$ ./autogen.sh       # Generate a ./configure script
-$ ./configure        # Generate a build system
-$ make               # Run the actual build process
-$ make check         # Run the test suite
-$ sudo make install  # Install the library into the system (optional)
+ ./autogen.sh       # Generate a ./configure script
+ ./configure        # Generate a build system
+ make               # Run the actual build process
+ make check         # Run the test suite
+ sudo make install  # Install the library into the system (optional)
 
-$ cmake -B build              # Generate a build system in subdirectory "build"
-$ cmake --build build         # Run the actual build process
-$ ctest --test-dir build      # Run the test suite
-$ sudo cmake --install build  # Install the library into the system (optional)
+ cmake -B build              # Generate a build system in subdirectory "build"
+ cmake --build build         # Run the actual build process
+ ctest --test-dir build      # Run the test suite
+ sudo cmake --install build  # Install the library into the system (optional)
 
-$ cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/x86_64-w64-mingw32.toolchain.cmake
+ cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/x86_64-w64-mingw32.toolchain.cmake
+
+git clone https://github.com/eveem-org/panoramix.git
+pip3 install -r requirements.txt
+
+python3.8 panoramix.py kitties paused --explain
+python3.8 panoramix.py kitties pause --explain
+python3.8 panoramix.py kitties tokenMetadata --explain
