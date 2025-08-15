@@ -1,54 +1,44 @@
-# Web4asset
+# Web4AssetChain – UUPS Upgradeable Scaffold
 
-Web4asset is a blockchain-based project designed to develop and manage digital assets. This project includes smart contracts, wallet management, and web application integration to create a comprehensive solution for handling digital assets.
+Modern UUPS (EIP‑1822) setup with ERC1967 proxy, Hardhat scripts, tests, CI, and a tiny admin frontend.
 
-## Table of Contents
+## Quickstart
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
+```bash
+npm i
+cp .env.example .env
+# edit .env with RPC, PRIVATE_KEY, OWNER_ADDRESS, etc.
 
-## Introduction
+npm run build
+npm run deploy:v1
+# -> note Proxy address
 
-Web4asset aims to provide a secure and user-friendly platform for managing digital assets on the blockchain. By leveraging technologies like Next.js and Node.js, the project offers a seamless experience for users to interact with the blockchain.
+PROXY_ADDRESS=0xProxyHere npm run upgrade:v2
+```
 
-## Features
+### Verify implementations
+```
+IMPLEMENTATION_ADDRESS=0xImplHere npm run verify:v1
+```
 
-- **Smart Contracts**: Self-executing contracts with the terms of the agreement directly written into code.
-- **Wallet Management**: Tools for generating addresses, handling transactions, and securing private keys.
-- **Web Application Integration**: User-friendly interface for interacting with the blockchain.
-- **Security**: Robust security measures to protect digital assets.
-- **Scalability**: Optimized for handling a growing number of users and transactions.
+## Frontend (local)
+Open `frontend/index.html` with a local server (or drop into your site).
+Use a Safe multisig for real upgrades; this page is for testing/dev.
 
-## Installation
+## Contracts
+- `ERC1967Proxy.sol` – minimal constructor-initialized proxy
+- `UUPSUpgradeable.sol` – base for upgrades
+- `OwnableUpgradeable.sol` – initializer-based ownership
+- `AssetChainV1.sol` / `AssetChainV2.sol` – example logic
 
-To get started with Web4asset, follow these steps:
+## Testing
+```
+npm test
+```
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/Web4application/web4asset.git
-   cd web4asset
+## Notes
+- Keep storage layout stable; only append variables in new versions.
+- Gate `_authorizeUpgrade` with a multisig owner (e.g., Safe).
 
-## ABOUT
-
-The Web4asset project is a blockchain-based initiative designed to develop and manage digital assets. It includes several key components to create a comprehensive solution for handling digital assets:
-
-# Smart Contracts
-Self-executing contracts with the terms of the agreement directly written into code.
-   
-# Wallet Management
-Tools for generating addresses, handling transactions, and securing private keys.
- 
-# Web Application Integration
-A user-friendly interface for interacting with the blockchain.
-
-# Security
-Robust security measures to protect digital assets.
-
-# Scalability
-Optimized for handling a growing number of users and transactions.
-
-The project aims to provide a secure and user-friendly platform for managing digital assets on the blockchain, leveraging technologies like Next.js and Node.js to offer a seamless experience for users.
+---
+© Web4AssetChain
