@@ -1,1 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web4AssetChain Admin Hook</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; }
+    input, button { padding: .6rem .8rem; font-size: 1rem; }
+    .row { display: flex; gap: .5rem; margin-bottom: .75rem; }
+    .card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; margin: 1rem 0; }
+    code { background: #f6f8fa; padding: .2rem .4rem; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <h1>Web4AssetChain Admin Hook (UUPS)</h1>
+  <p>For production, execute upgrades via a <strong>Safe</strong> multisig. This page is for testing with an owner EOA.</p>
 
+  <div class="card">
+    <div class="row">
+      <button id="connect">Connect Wallet</button>
+      <span id="acct"></span>
+    </div>
+    <div class="row">
+      <input id="proxy" placeholder="Proxy address 0x..." size="46">
+      <input id="impl" placeholder="New impl address 0x..." size="46">
+    </div>
+    <div class="row">
+      <button id="upgrade">upgradeTo</button>
+      <input id="symbol" placeholder="Symbol (e.g., W4A)">
+      <button id="initV2">initializeV2</button>
+    </div>
+    <pre id="log"></pre>
+  </div>
+
+  <script>
+    const abiV1V2 = [
+      "function owner() view returns (address)",
+      "function name() view returns (string)",
+      "function mint(address to, uint256 amount)",
+      "function balances(address) view returns (uint256)",
+      "function upgradeTo(address newImplementation)",
+      "function initializeV2(string symbol)",
+      "function version() view returns (string)"
+    ];
+
+    const log = (m) => { document.getElementById('log').textContent += m + "\n"; }
+
+    let provider, signer;
+
+    document.getElementById('connect').onclick = async () => {
+      if (!window.ethereum) { alert("Install MetaMask"); return; }
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      provider = new ethers.BrowserProvider(window.ethereum);
+      signer = await provider.getSigner();
+      document.getElementById('acct').textContent = await signer.getAddress();
+    };
+
+    document.getElementById('upgrade').onclick = async () => {
+      try {
+        const proxy = document.getElementById('proxy').value;
+        const impl = document.getElementById('impl').value;
+        const c = new ethers.Contract(proxy, abiV1V2, signer);
+        const tx = await c.upgradeTo(impl);
+        log("upgradeTo tx: " + tx.hash);
+        await tx.wait();
+        log("Upgraded.");
+      } catch (e) { log(e.message || String(e)); }
+    };
+
+    document.getElementById('initV2').onclick = async () => {
+      try {
+        const proxy = document.getElementById('proxy').value;
+        const sym = document.getElementById('symbol').value;
+        const c = new ethers.Contract(proxy, abiV1V2, signer);
+        const tx = await c.initializeV2(sym);
+        log("initializeV2 tx: " + tx.hash);
+        await tx.wait();
+        log("Initialized V2.");
+      } catch (e) { log(e.message || String(e)); }
+    };
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.2/ethers.umd.min.js" integrity="sha512-1B8+N0b+e2pZguC3y3yA3R+2kXWmQSmLeM2QBA1kM+XvILtDkVz+1n2x9YgA2gTs7ZpJV3mRRQyZ3qXJ98YH4A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
